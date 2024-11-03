@@ -1,3 +1,4 @@
+using KS.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KS.API.Controllers
@@ -11,15 +12,17 @@ namespace KS.API.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private ArticleRepository _articleRepository;
+        private OfferRepository _offerRepository;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ArticleRepository articleRepository, OfferRepository offerRepository)
         {
-            _logger = logger;
+            _articleRepository = articleRepository;
+            _offerRepository = offerRepository;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

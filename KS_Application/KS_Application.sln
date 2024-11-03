@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.Application", "KS.Applic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.Infrastructure", "KS.Infrastructure\KS.Infrastructure.csproj", "{B06562AE-03B4-43F3-8CE2-616832C7AF7D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F3F92B36-1C22-46C5-BCAC-A7038130D945}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DAA4073F-91E4-4612-BFB2-F3EF295CF394}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4B6FA6A6-1202-49E4-B4E5-A19B3FDE25E3} = {F3F92B36-1C22-46C5-BCAC-A7038130D945}
+		{7A615EBF-01EB-4B1B-BFD1-6BC9EAF5ECC1} = {F3F92B36-1C22-46C5-BCAC-A7038130D945}
+		{FDC9A90B-6165-4252-87E0-CB0565DCAD94} = {F3F92B36-1C22-46C5-BCAC-A7038130D945}
+		{52D4638B-5FED-46F0-9765-0BACFB48D015} = {F3F92B36-1C22-46C5-BCAC-A7038130D945}
+		{B06562AE-03B4-43F3-8CE2-616832C7AF7D} = {F3F92B36-1C22-46C5-BCAC-A7038130D945}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CCB55346-5732-4E4F-BEFB-C33CBFCFAFD8}
