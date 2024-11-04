@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace KS.Domain.OfferArticles
 {
     /// <summary>
-    /// Bridbe table that represents many-many relationship between Offers and Articles
+    /// Bridge table that represents many-many relationship between Offers and Articles
     /// </summary>
     public class OfferArticle
     {

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using KS.Domain.Articles;
 using KS.Domain.Abstractions;
 using KS.Domain.OfferArticles;
 

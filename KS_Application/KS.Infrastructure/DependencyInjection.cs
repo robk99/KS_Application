@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using KS.Infrastructure.Data.Repositories;
+using KS.Domain.Offers;
+using KS.Domain.Articles;
 
 namespace KS.Infrastructure
 {
@@ -22,8 +24,8 @@ namespace KS.Infrastructure
 
             });
 
-            services.AddScoped<ArticleRepository>();
-            services.AddScoped<OfferRepository>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IOfferRepository, OfferRepository>();
 
             return services;
         }

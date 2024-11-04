@@ -22,6 +22,7 @@ namespace KS.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<OfferArticle>()
+                .ToTable("OfferArticles")
                 .HasKey(oa => oa.Id);
 
             modelBuilder.Entity<OfferArticle>()
