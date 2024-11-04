@@ -13,12 +13,20 @@ namespace KS.Infrastructure.Data.Repositories
             _context = context;
         }
 
-        public async Task<List<Offer>> GetAll()
+        public async Task<(List<Offer> Items, int TotalCount)> GetAll(int page, int pageSize)
         {
-            return await _context.Offers
-                .Where(a => !a.IsDeleted)
-                .AsNoTracking()
+            var query = _context.Offers
+              .Where(a => !a.IsDeleted)
+              .AsNoTracking();
+
+            var totalCount = await query.CountAsync();
+            var items = await query
+                .OrderBy(o => o.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
+            return (items, totalCount);
         }
 
         public async Task<Offer?> GetById(long id)

@@ -3,7 +3,7 @@ namespace KS.Domain.Offers
 {
     public interface IOfferRepository
     {
-        public Task<List<Offer>> GetAll();
+        public Task<(List<Offer> Items, int TotalCount)> GetAll(int page, int pageSize);
 
         public Task<Offer?> GetById(long id);
 

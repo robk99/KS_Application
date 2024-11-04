@@ -1,5 +1,6 @@
 using AutoMapper;
 using KS.Application.DTOs.Offer;
+using KS.Application.DTOs.Response;
 using KS.Domain.Offers;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -20,14 +21,18 @@ namespace KS.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("GetAllList")]
-        public async Task<ActionResult<IEnumerable<OfferListDTO>>> GetAllList()
+        [HttpGet("getAllList")]
+        public async Task<ActionResult<PagedResult<OfferListDTO>>> GetAllList(int page = 1, int pageSize = 10)
         {
             var offerDTOs = new List<OfferListDTO>();
-            var offers = await _offerRepository.GetAll();
-            if (offers.Count != 0) offerDTOs = _mapper.Map<List<OfferListDTO>>(offers);
+            var result = await _offerRepository.GetAll(page, pageSize);
+            if (result.Items.Count != 0) offerDTOs = _mapper.Map<List<OfferListDTO>>(result.Items);
 
-            return Ok(offerDTOs);
+            return Ok(new PagedResult<OfferListDTO>
+            {
+                Data = offerDTOs,
+                TotalCount = result.TotalCount
+            });
         }
 
         [HttpGet("getById/{id}")]
