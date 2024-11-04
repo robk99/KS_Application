@@ -1,5 +1,4 @@
 ﻿@page "/offers"
-@rendermode InteractiveServer
 
 @using KS.Application.Clients;
 @using KS.Application.DTOs.Offer
@@ -10,11 +9,15 @@
 <PageTitle>Offers</PageTitle>
 
 
-<h3>Offers</h3>
+<div class="d-flex justify-content-between align-items-center">
+    <h3>Offers</h3>
+    <button class="btn btn-success" @onclick="AddNewOffer">Add</button>
+</div>
 <br />
 <br />
 
-<Grid TItem="OfferListDTO"
+<Grid @ref="grid"
+      TItem="OfferListDTO"
       AllowPaging="true"
       AllowSorting="true"
       Class="table table-hover table-bordered table-striped"
@@ -31,11 +34,17 @@
         <GridColumn TItem="OfferListDTO" HeaderText="Created on" PropertyName="CreatedOnUtc">
             @context.CreatedOnUtc
         </GridColumn>
+        <GridColumn TItem="OfferListDTO" HeaderText="Delete">
+            <button class="btn btn-sm btn-danger" @onclick="() => RemoveOffer(context)" @onclick:stopPropagation="true">
+                <i class="bi bi-trash"></i>
+            </button>
+        </GridColumn>
     </GridColumns>
 </Grid>
 
 
 @code {
+    Grid<OfferListDTO> grid = default!;
     private IEnumerable<OfferListDTO>? offers = default!;
     private int currentPage = 1;
     private const int pageSize = 3;
@@ -58,5 +67,16 @@
     private void OnRowClick(GridRowEventArgs<OfferListDTO> args)
     {
         NavigationManager.NavigateTo($"/edit-offer/{args.Item.Id}");
+    }
+
+    private void AddNewOffer()
+    {
+        NavigationManager.NavigateTo("/edit-offer/0");
+    }
+
+    private async void RemoveOffer(OfferListDTO article)
+    {
+        await OfferClient.DeleteAsync(article.Id);
+        grid.RefreshDataAsync();
     }
 }

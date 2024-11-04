@@ -39,7 +39,7 @@ namespace KS.API.Controllers
         public async Task<ActionResult<OfferDetailsDTO>> GetById(long id)
         {
             var offer = await _offerRepository.GetById(id);
-            if (offer == null) return NotFound();
+            if (offer == null) return NotFound(null);
 
             var offerDTO = _mapper.Map<OfferDetailsDTO>(offer);
             return Ok(offerDTO);

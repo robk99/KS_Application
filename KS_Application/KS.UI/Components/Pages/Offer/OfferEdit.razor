@@ -1,0 +1,236 @@
+﻿@page "/edit-offer/{offerId:long}"
+@using KS.Application.Clients
+@using KS.Application.DTOs.Article
+@using KS.Application.DTOs.Offer
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+
+@inject OfferClient OfferClient
+@inject ArticleClient ArticleClient
+@inject NavigationManager NavigationManager
+
+<div class="d-flex justify-content-between">
+    <h3>@pageTitle</h3>
+    <h3>@offerDate</h3>
+</div>
+
+<br />
+
+<div class="d-flex justify-content-between my-2">
+    <button class="btn btn-secondary" @onclick="GoBack">Back</button>
+    @if (OfferId > 0)
+    {
+        <button class="btn btn-primary" @onclick="UpdateOffer">Save</button>
+    }
+    else
+    {
+        <button class="btn btn-primary" @onclick="SaveNewOffer">Save</button>
+    }
+
+</div>
+
+<br />
+
+<Grid @ref="grid"
+      TItem="ArticleDetailsDTO"
+      AllowSorting="true"
+      Class="table table-hover table-bordered table-striped"
+      AllowPaging="false"
+      DataProvider="ArticlesDataProvider"
+      Responsive="true">
+    <GridColumns>
+        <GridColumn TItem="ArticleDetailsDTO" HeaderText="Article" PropertyName="Name">
+            @context.Name
+        </GridColumn>
+        <GridColumn TItem="ArticleDetailsDTO" HeaderText="Price" PropertyName="Price">
+            @context.Price.ToString()
+        </GridColumn>
+        <GridColumn TItem="ArticleDetailsDTO" HeaderText="Amount" PropertyName="Amount">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-sm btn-light" @onclick="() => DecrementAmount(context)">-</button>
+                <span class="mx-2">@context.Amount</span>
+                <button class="btn btn-sm btn-light" @onclick="() => IncrementAmount(context)">+</button>
+            </div>
+        </GridColumn>
+        <GridColumn TItem="ArticleDetailsDTO" HeaderText="Total Article Price">
+            @context.TotalPrice
+        </GridColumn>
+        <GridColumn TItem="ArticleDetailsDTO" HeaderText="Delete">
+            <button class="btn btn-sm btn-danger" @onclick="() => RemoveArticle(context)">
+                <i class="bi bi-trash"></i>
+            </button>
+        </GridColumn>
+    </GridColumns>
+</Grid>
+
+<div class="d-flex justify-content-end mt-3">
+    <h5>Total Offer Price: @totalOfferPrice.ToString()</h5>
+</div>
+
+<div class="mb-3">
+    <label for="articleSelect" class="form-label">Add Article</label>
+    <select id="articleSelect" class="form-select" @onchange="OnArticleSelect">
+        <option value="">Select an article</option>
+        @foreach (var article in availableArticles)
+        {
+            <option value="@article.Id">@article.Name</option>
+        }
+    </select>
+    <button class="btn btn-success mt-2" @onclick="AddArticle">Add Article</button>
+</div>
+
+@code {
+    [Parameter] public long OfferId { get; set; }
+    Grid<ArticleDetailsDTO> grid = default!;
+    private OfferDetailsDTO? offerDetails;
+    private IEnumerable<ArticleDTO> availableArticles = new List<ArticleDTO>();
+    private List<ArticleDetailsDTO> groupedArticles = new();
+    private long selectedArticleId;
+    private long offerNumber;
+    private string offerDate;
+    private decimal totalOfferPrice => offerDetails?.Articles.Sum(a => a.Price) ?? 0;
+    private string pageTitle;
+
+    private async Task<GridDataProviderResult<ArticleDetailsDTO>> ArticlesDataProvider(GridDataProviderRequest<ArticleDetailsDTO> request)
+    {
+        pageTitle = OfferId > 0 ? "Edit offer" : "Add new offer";
+
+        if (availableArticles == null || availableArticles.Count() == 0) await LoadDataFromDB();
+        else UpdateGroupedArticles();
+
+        return new GridDataProviderResult<ArticleDetailsDTO>
+            {
+                Data = groupedArticles,
+                TotalCount = groupedArticles.Count()
+            };
+    }
+
+    private async Task LoadDataFromDB()
+    {
+        availableArticles = await ArticleClient.GetAllAsync();
+
+        if (OfferId > 0)
+        {
+            offerDetails = await OfferClient.GetByIdAsync(OfferId);
+
+            if (offerDetails != null)
+            {
+                offerNumber = offerDetails.OfferNumber;
+                pageTitle = $"Edit offer-{offerNumber}";
+                offerDate = offerDetails.CreatedOnUtc.ToString();
+                UpdateGroupedArticles();
+                
+            }
+            else NavigationManager.NavigateTo("/404");
+        }
+        else
+        {
+            offerDetails = new OfferDetailsDTO()
+                {
+                    TotalPrice = 0,
+                };
+            StateHasChanged();
+        }
+    }
+
+    private void UpdateGroupedArticles()
+    {
+        groupedArticles = offerDetails.Articles
+            .GroupBy(a => a.Id)
+            .Select(g => new ArticleDetailsDTO
+                {
+                    Id = g.Key,
+                    Name = g.First().Name,
+                    Price = g.First().Price,
+                    Amount = g.Count(),
+                    TotalPrice = g.First().Price * g.Count()
+                })
+            .OrderBy(o => o.Name)
+            .ToList();
+
+        StateHasChanged();
+    }
+
+    private void AddArticle()
+    {
+        if (selectedArticleId > 0)
+        {
+            var selectedArticle = availableArticles.FirstOrDefault(a => a.Id == selectedArticleId);
+            if (selectedArticle != null)
+            {
+                offerDetails.Articles.Add(new ArticleDTO
+                    {
+                        Id = selectedArticle.Id,
+                        Name = selectedArticle.Name,
+                        Price = selectedArticle.Price,
+                    });
+                grid.RefreshDataAsync();
+            }
+        }
+    }
+
+    private void RemoveArticle(ArticleDetailsDTO article)
+    {
+        offerDetails.Articles.RemoveAll(a => a.Id == article.Id);
+        grid.RefreshDataAsync();
+    }
+
+    private void IncrementAmount(ArticleDetailsDTO article)
+    {
+        var matchingArticle = offerDetails.Articles.FirstOrDefault(a => a.Id == article.Id);
+        if (matchingArticle != null)
+        {
+            offerDetails.Articles.Add(matchingArticle);
+            grid.RefreshDataAsync();
+        }
+    }
+
+    private void DecrementAmount(ArticleDetailsDTO article)
+    {
+        var matchingArticle = offerDetails.Articles.FirstOrDefault(a => a.Id == article.Id);
+        if (matchingArticle != null)
+        {
+            offerDetails.Articles.Remove(matchingArticle);
+            grid.RefreshDataAsync();
+        }
+    }
+
+
+    private async Task UpdateOffer()
+    {
+        var updateDto = new OfferUpdateDTO
+            {
+                Id = offerDetails.Id,
+                ArticleIds = offerDetails.Articles.Select(a => a.Id).ToList()
+            };
+
+        await OfferClient.UpdateAsync(updateDto);
+        GoBack();
+    }
+
+    private async Task SaveNewOffer()
+    {
+        var createDto = new OfferCreateDTO
+            {
+                ArticleIds = offerDetails.Articles.Select(a => a.Id).ToList()
+            };
+
+        await OfferClient.CreateAsync(createDto);
+        GoBack();
+    }
+
+
+    private void OnArticleSelect(ChangeEventArgs e)
+    {
+        if (long.TryParse(e.Value.ToString(), out var articleId))
+        {
+            selectedArticleId = articleId;
+        }
+        else selectedArticleId = 0;
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/offers");
+    }
+}
