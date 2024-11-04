@@ -8,7 +8,11 @@ builder.Services.AddApplicationServices();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddBlazorBootstrap();
+
 var app = builder.Build();
+
+app.UseStatusCodePagesWithRedirects("/404");
 
 if (!app.Environment.IsDevelopment())
 {

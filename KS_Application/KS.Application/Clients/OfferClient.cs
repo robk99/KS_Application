@@ -17,9 +17,9 @@ namespace KS.Application.Clients
             _fullOfferApiURL = $"{baseURL}/{offerApiURL}";
         }
 
-        public async Task<IEnumerable<OfferDetailsDTO>?> GetAllListAsync()
+        public async Task<IEnumerable<OfferListDTO>?> GetAllListAsync()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<OfferDetailsDTO>>($"{_fullOfferApiURL}/getAllList");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<OfferListDTO>>($"{_fullOfferApiURL}/getAllList");
         }
 
         public async Task<OfferDetailsDTO?> GetByIdAsync(long id)

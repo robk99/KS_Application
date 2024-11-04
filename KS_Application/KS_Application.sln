@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.UI", "KS.UI\KS.UI.csproj", "{4B6FA6A6-1202-49E4-B4E5-A19B3FDE25E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KS.UI", "KS.UI\KS.UI.csproj", "{4B6FA6A6-1202-49E4-B4E5-A19B3FDE25E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.API", "KS.API\KS.API.csproj", "{7A615EBF-01EB-4B1B-BFD1-6BC9EAF5ECC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KS.API", "KS.API\KS.API.csproj", "{7A615EBF-01EB-4B1B-BFD1-6BC9EAF5ECC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.Domain", "KS.Domain\KS.Domain.csproj", "{FDC9A90B-6165-4252-87E0-CB0565DCAD94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KS.Domain", "KS.Domain\KS.Domain.csproj", "{FDC9A90B-6165-4252-87E0-CB0565DCAD94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.Application", "KS.Application\KS.Application.csproj", "{52D4638B-5FED-46F0-9765-0BACFB48D015}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KS.Application", "KS.Application\KS.Application.csproj", "{52D4638B-5FED-46F0-9765-0BACFB48D015}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.Infrastructure", "KS.Infrastructure\KS.Infrastructure.csproj", "{B06562AE-03B4-43F3-8CE2-616832C7AF7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KS.Infrastructure", "KS.Infrastructure\KS.Infrastructure.csproj", "{B06562AE-03B4-43F3-8CE2-616832C7AF7D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F3F92B36-1C22-46C5-BCAC-A7038130D945}"
 EndProject

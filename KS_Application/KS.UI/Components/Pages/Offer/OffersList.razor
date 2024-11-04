@@ -1,0 +1,63 @@
+﻿@page "/offers"
+@using KS.Application.Clients;
+@using KS.Application.DTOs.Offer
+
+@inject OfferClient OfferClient
+@inject NavigationManager NavigationManager
+
+<PageTitle>Offers</PageTitle>
+
+
+<h3>Offers</h3>
+<br />
+<br />
+
+@if (offers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (offers.Count() == 0)
+{
+    <p>No offers found.</p>
+}
+else
+{
+    <Grid TItem="OfferListDTO"
+          Class="table table-hover table-bordered table-striped"
+          Data="offers"
+          AllowRowClick="true"
+          AllowSorting="true"
+          OnRowClick="OnRowClick">
+        <GridColumns>
+            <GridColumn TItem="OfferListDTO" HeaderText="Offer no." PropertyName="OfferNumber">
+                @context.OfferNumber
+            </GridColumn>
+            <GridColumn TItem="OfferListDTO" HeaderText="Created on" PropertyName="CreatedOnUtc">
+                @context.CreatedOnUtc
+            </GridColumn>
+        </GridColumns>
+    </Grid>
+}
+
+@code {
+    private IEnumerable<OfferListDTO>? offers;
+    private int currentPage = 1;
+    private const int pageSize = 3;
+    private int totalOffers = 30;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadOffers(currentPage);
+    }
+
+    private async Task LoadOffers(int page)
+    {
+        offers = await OfferClient.GetAllListAsync();
+        currentPage = page;
+    }
+
+    private async Task OnRowClick(GridRowEventArgs<OfferListDTO> args)
+    {
+        NavigationManager.NavigateTo($"/edit-offer/{args.Item.Id}");
+    }
+}
