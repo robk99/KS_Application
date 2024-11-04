@@ -18,9 +18,12 @@ namespace KS.Application.Mappings
 
         private void CreateOfferMappings()
         {
-            CreateMap<Offer, OfferReadDTO>()
-                .ForMember(dest => dest.Articles, opt => opt.MapFrom(src => src.OfferArticles.Select(oa => oa.Article)))
-                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.TotalPrice));
+
+            CreateMap<Offer, OfferListDTO>();
+
+            CreateMap<Offer, OfferDetailsDTO>()
+                .ForMember(dest => dest.Articles, opt => opt.MapFrom(src => src.OfferArticles.Select(oa => oa.Article)));
+
 
             CreateMap<OfferCreateDTO, Offer>()
                 .ForMember(dest => dest.OfferArticles, opt => opt.MapFrom(src =>
@@ -31,7 +34,7 @@ namespace KS.Application.Mappings
                     src.ArticleIds.Select(id => new OfferArticle { ArticleId = id })))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
 
-            CreateMap<OfferReadDTO, OfferUpdateDTO>()
+            CreateMap<OfferDetailsDTO, OfferUpdateDTO>()
                 .ForMember(dest => dest.ArticleIds, opt => opt.MapFrom(src => src.Articles.Select(a => a.Id)));
         }
     }

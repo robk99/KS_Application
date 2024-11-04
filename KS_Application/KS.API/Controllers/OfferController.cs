@@ -20,24 +20,24 @@ namespace KS.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("getAll")]
-        public async Task<ActionResult<IEnumerable<OfferReadDTO>>> GetAll()
+        [HttpGet("GetAllList")]
+        public async Task<ActionResult<IEnumerable<OfferListDTO>>> GetAllList()
         {
-            var offerDTOs = new List<OfferReadDTO>();
+            var offerDTOs = new List<OfferListDTO>();
             var offers = await _offerRepository.GetAll();
-            if (offers.Count != 0) offerDTOs = _mapper.Map<List<OfferReadDTO>>(offerDTOs);
+            if (offers.Count != 0) offerDTOs = _mapper.Map<List<OfferListDTO>>(offers);
 
             return Ok(offerDTOs);
         }
 
         [HttpGet("getById/{id}")]
-        public async Task<ActionResult<OfferReadDTO>> GetById(long id)
+        public async Task<ActionResult<OfferDetailsDTO>> GetById(long id)
         {
             var offer = await _offerRepository.GetById(id);
             if (offer == null) return NotFound();
 
-            var offerDTO = _mapper.Map<OfferReadDTO>(offer);
-            return Ok(offer);
+            var offerDTO = _mapper.Map<OfferDetailsDTO>(offer);
+            return Ok(offerDTO);
         }
 
         [HttpPost("create")]

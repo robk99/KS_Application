@@ -17,14 +17,14 @@ namespace KS.Application.Clients
             _fullOfferApiURL = $"{baseURL}/{offerApiURL}";
         }
 
-        public async Task<IEnumerable<OfferReadDTO>?> GetAllAsync()
+        public async Task<IEnumerable<OfferDetailsDTO>?> GetAllListAsync()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<OfferReadDTO>>($"{_fullOfferApiURL}/getAll");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<OfferDetailsDTO>>($"{_fullOfferApiURL}/getAllList");
         }
 
-        public async Task<OfferReadDTO?> GetByIdAsync(long id)
+        public async Task<OfferDetailsDTO?> GetByIdAsync(long id)
         {
-            return await _httpClient.GetFromJsonAsync<OfferReadDTO>($"{_fullOfferApiURL}/getById/{id}");
+            return await _httpClient.GetFromJsonAsync<OfferDetailsDTO>($"{_fullOfferApiURL}/getById/{id}");
         }
 
         public async Task<bool> CreateAsync(OfferCreateDTO offerDTO)

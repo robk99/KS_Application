@@ -24,6 +24,8 @@ namespace KS.Infrastructure.Data.Repositories
         public async Task<Offer?> GetById(long id)
         {
             return await _context.Offers
+                .Include(a => a.OfferArticles)
+                .ThenInclude(b => b.Article)
                 .FirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
         }
 
