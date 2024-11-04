@@ -21,6 +21,6 @@ namespace KS.Domain.Offers
         public bool IsDeleted { get; set; } = false;
 
         [NotMapped]
-        public int? TotalPrice => OfferArticles?.Sum(a => a.Article.Price) ?? 0;
+        public int? TotalPrice => OfferArticles?.Sum(a => a.Article?.Price ?? 0) ?? 0;
     }
 }

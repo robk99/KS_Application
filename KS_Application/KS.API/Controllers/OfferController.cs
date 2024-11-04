@@ -41,7 +41,7 @@ namespace KS.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<Offer>> Create([FromBody] OfferCreateDTO offerDTO)
+        public async Task<ActionResult> Create([FromBody] OfferCreateDTO offerDTO)
         {
             var offer = _mapper.Map<Offer>(offerDTO);
             await _offerRepository.Create(offer);
