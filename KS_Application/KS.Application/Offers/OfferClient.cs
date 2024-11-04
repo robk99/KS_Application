@@ -1,9 +1,10 @@
-﻿using KS.Application.DTOs.Offer;
-using KS.Application.DTOs.Response;
+﻿using KS.Application.Offers.Create;
+using KS.Application.Offers.Update;
+using KS.Application.Response;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
 
-namespace KS.Application.Clients
+namespace KS.Application.Offers
 {
     public class OfferClient
     {
@@ -18,9 +19,9 @@ namespace KS.Application.Clients
             _fullOfferApiURL = $"{baseURL}/{offerApiURL}";
         }
 
-        public async Task<PagedResult<OfferListDTO>> GetAllListAsyncPaginated(int page, int pageSize)
+        public async Task<PagedResultDTO<OfferListDTO>> GetAllListAsyncPaginated(int page, int pageSize)
         {
-            return await _httpClient.GetFromJsonAsync<PagedResult<OfferListDTO>>($"{_fullOfferApiURL}/getAllList?page={page}&pageSize={pageSize}");
+            return await _httpClient.GetFromJsonAsync<PagedResultDTO<OfferListDTO>>($"{_fullOfferApiURL}/getAllList?page={page}&pageSize={pageSize}");
         }
 
         public async Task<OfferDetailsDTO?> GetByIdAsync(long id)

@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using KS.API.Extensions;
 using KS.Application;
 using KS.Infrastructure;

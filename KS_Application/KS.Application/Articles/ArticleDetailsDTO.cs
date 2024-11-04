@@ -1,4 +1,4 @@
-﻿namespace KS.Application.DTOs.Article
+﻿namespace KS.Application.Articles
 {
     public class ArticleDetailsDTO
     {

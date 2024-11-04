@@ -1,8 +1,7 @@
-﻿using KS.Application.DTOs.Article;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
 
-namespace KS.Application.Clients
+namespace KS.Application.Articles
 {
     public class ArticleClient
     {

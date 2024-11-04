@@ -1,5 +1,5 @@
 using AutoMapper;
-using KS.Application.DTOs.Article;
+using KS.Application.Articles;
 using KS.Domain.Articles;
 using Microsoft.AspNetCore.Mvc;
 

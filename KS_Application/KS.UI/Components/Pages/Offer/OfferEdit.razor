@@ -1,7 +1,8 @@
 ﻿@page "/edit-offer/{offerId:long}"
-@using KS.Application.Clients
-@using KS.Application.DTOs.Article
-@using KS.Application.DTOs.Offer
+@using KS.Application.Articles
+@using KS.Application.Offers
+@using KS.Application.Offers.Create
+@using KS.Application.Offers.Update
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 
@@ -119,7 +120,7 @@
                 pageTitle = $"Edit offer-{offerNumber}";
                 offerDate = offerDetails.CreatedOnUtc.ToString();
                 UpdateGroupedArticles();
-                
+
             }
             else NavigationManager.NavigateTo("/404");
         }
@@ -195,9 +196,19 @@
         }
     }
 
+    private bool AreArticlesValid()
+    {
+        return offerDetails.Articles.Count >= 1 && !offerDetails.Articles.Any(e => e.Id == 0);
+    }
 
     private async Task UpdateOffer()
     {
+        if (offerDetails.Id == 0 || !AreArticlesValid())
+        {
+            NavigationManager.NavigateTo("/Error");
+            return;
+        }
+
         var updateDto = new OfferUpdateDTO
             {
                 Id = offerDetails.Id,
@@ -210,6 +221,12 @@
 
     private async Task SaveNewOffer()
     {
+        if (!AreArticlesValid())
+        {
+            NavigationManager.NavigateTo("/Error");
+            return;
+        }
+
         var createDto = new OfferCreateDTO
             {
                 ArticleIds = offerDetails.Articles.Select(a => a.Id).ToList()

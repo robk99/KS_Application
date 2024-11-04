@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
-using KS.Application.DTOs.Article;
-using KS.Application.DTOs.Offer;
+using KS.Application.Articles;
+using KS.Application.Offers;
+using KS.Application.Offers.Create;
+using KS.Application.Offers.Update;
 using KS.Domain.Articles;
 using KS.Domain.OfferArticles;
 using KS.Domain.Offers;

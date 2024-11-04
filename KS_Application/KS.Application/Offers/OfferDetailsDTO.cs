@@ -1,6 +1,6 @@
-﻿using KS.Application.DTOs.Article;
+﻿using KS.Application.Articles;
 
-namespace KS.Application.DTOs.Offer
+namespace KS.Application.Offers
 {
     public class OfferDetailsDTO : OfferListDTO
     {

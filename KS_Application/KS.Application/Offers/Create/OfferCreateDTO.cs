@@ -1,4 +1,4 @@
-﻿namespace KS.Application.DTOs.Offer
+﻿namespace KS.Application.Offers.Create
 {
     public class OfferCreateDTO
     {
