@@ -26,7 +26,23 @@ namespace KS.Application.Offers
 
         public async Task<OfferDetailsDTO?> GetByIdAsync(long id)
         {
-            return await _httpClient.GetFromJsonAsync<OfferDetailsDTO>($"{_fullOfferApiURL}/getById/{id}");
+            var offerDetails = new OfferDetailsDTO();
+
+            try
+            {
+                offerDetails = await _httpClient.GetFromJsonAsync<OfferDetailsDTO>($"{_fullOfferApiURL}/getById/{id}");
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound) return null;
+                
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+
+            return offerDetails;
         }
 
         public async Task<bool> CreateAsync(OfferCreateDTO offerDTO)

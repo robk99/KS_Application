@@ -1,11 +1,14 @@
-using FluentValidation.AspNetCore;
 using KS.API.Extensions;
 using KS.Application;
 using KS.Infrastructure;
+using KS.Infrastructure.Logging;
+using KS.Infrastructure.Middlewares;
 using Microsoft.OpenApi.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.ConfigureLogging(builder.Configuration);
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -29,6 +32,8 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "KS_Application_API v1");
     });
 }
+
+app.UseMiddleware<ExceptionMiddlewareAPI>();
 
 app.MapHealthChecks("/api/health");
 

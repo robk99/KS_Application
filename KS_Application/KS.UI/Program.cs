@@ -1,7 +1,11 @@
 using KS.Application;
+using KS.Infrastructure.Logging;
+using KS.Infrastructure.Middlewares;
 using KS.UI.Components;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.ConfigureLogging(builder.Configuration);
 
 builder.Services.AddApplicationServices();
 
@@ -20,6 +24,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseMiddleware<ExceptionMiddlewareUI>();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
