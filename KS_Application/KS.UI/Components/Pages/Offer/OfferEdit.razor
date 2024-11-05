@@ -108,7 +108,7 @@
 
     private async Task LoadDataFromDB()
     {
-        availableArticles = await ArticleClient.GetAllAsync();
+        availableArticles = await ArticleClient.GetAllListAsync();
 
         if (OfferId > 0)
         {

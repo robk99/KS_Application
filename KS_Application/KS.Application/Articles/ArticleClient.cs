@@ -16,9 +16,9 @@ namespace KS.Application.Articles
             _fullArticleApiURL = $"{baseURL}/{articleApiURL}";
         }
 
-        public async Task<IEnumerable<ArticleDTO>?> GetAllAsync()
+        public async Task<IEnumerable<ArticleDTO>?> GetAllListAsync()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<ArticleDTO>>($"{_fullArticleApiURL}/getAll");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<ArticleDTO>>($"{_fullArticleApiURL}/getAllList");
         }
     }
 }

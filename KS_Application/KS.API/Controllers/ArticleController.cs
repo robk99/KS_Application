@@ -19,8 +19,8 @@ namespace KS.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("getAll")]
-        public async Task<ActionResult<IEnumerable<ArticleDTO>>> GetAll()
+        [HttpGet("getAllList")]
+        public async Task<ActionResult<IEnumerable<ArticleDTO>>> GetAllList()
         {
             var articleDTOs = new List<ArticleDTO>();
             var articles = await _articleRepository.GetAll();
